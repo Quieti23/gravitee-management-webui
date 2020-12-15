@@ -19,7 +19,7 @@ import { IScope } from 'angular';
 import { StateService } from '@uirouter/core';
 import { StateProvider, UrlService } from '@uirouter/angularjs';
 import OrganizationService from './services/organization.service';
-import PortalConfigService from './services/portalConfig.service';
+import PortalSettingsService from './services/portalSettings.service';
 import EnvironmentService from './services/environment.service';
 
 function routerConfig($stateProvider: StateProvider, $urlServiceProvider: UrlService) {
@@ -36,7 +36,7 @@ function routerConfig($stateProvider: StateProvider, $urlServiceProvider: UrlSer
         resolve: {
           graviteeUser: (UserService: UserService) => UserService.current()
         },
-        onEnter: (PortalConfigService: PortalConfigService, EnvironmentService: EnvironmentService, Constants, $window) => {
+        onEnter: (PortalSettingsService: PortalSettingsService, EnvironmentService: EnvironmentService, Constants, $window) => {
           if (!Constants.org.currentEnv) {
             return EnvironmentService.list()
               .then(response => {
@@ -60,7 +60,7 @@ function routerConfig($stateProvider: StateProvider, $urlServiceProvider: UrlSer
               })
               .then((environments) => {
                 if (environments && environments.length >= 1) {
-                  return PortalConfigService.get();
+                  return PortalSettingsService.get();
                 }
               })
               .then(response => {
